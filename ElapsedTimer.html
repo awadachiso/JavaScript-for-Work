@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>elapsedTime</title>
+
+  <script>
+    let nIntervId;
+    let currentValue = 0;
+    let running;
+    
+    function loadHandler() {
+      nIntervId = setInterval(showElapsedTime, 1000);
+      running = true;
+    }
+
+    function showElapsedTime() {
+      let oElem = document.getElementById('displayArea');
+      currentValue = currentValue + 1;
+      oElem.innerText = formatElapsedTime(currentValue);
+    }
+      
+    function formatElapsedTime(val){
+      let h, m, s;
+      h = zeroPadding(val / 3600);
+      m = zeroPadding(val % 3600 / 60);
+      s = zeroPadding(val % 60);
+      return `${h}:${m}:${s}`;
+
+      function zeroPadding(num){
+        return ('0' + Math.floor(num)).slice( -2);
+      }
+    }
+      
+    function stop() {
+      clearInterval(nIntervId);
+      running = false;
+    }
+    
+    function restart(){
+      if(!running){
+        nIntervId = setInterval(showElapsedTime, 1000);
+      }
+    }
+  </script>
+</head>
+
+<body onload="loadHandler();">
+  <div id="displayArea">
+    00:00:00
+  </div>
+
+  <button onclick="stop();">Stop</button>
+  <button onclick="restart();">Restart</button>
+</body>
+</html>
